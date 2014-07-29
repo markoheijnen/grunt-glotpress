@@ -32,18 +32,15 @@ module.exports = function(grunt) {
 		glotpress_download: {
 			default_options: {
 				options: {
-				},
-				files: {
-					'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+					domainPath: 'tmp',
+					url: 'http://wp-translate.org',
+					slug: 'tabify-edit-screen',
+					textdomain: 'tabify-edit-screen',
 				}
 			},
-			custom_options: {
+			empty_options: {
 				options: {
-					separator: ': ',
-					punctuation: ' !!!'
-				},
-				files: {
-					'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+
 				}
 			}
 		},
