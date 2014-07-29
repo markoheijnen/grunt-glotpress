@@ -32,7 +32,7 @@ module.exports = function(grunt) {
 			url: false,
 			slug: false,
 			textdomain: false,
-			file_format: '%domainPath%/%textdomain%-%locale%.%format%';
+			file_format: '%domainPath%/%textdomain%-%wp_locale%.%format%',
 			formats: [
 				'po',
 				'mo'
@@ -57,14 +57,15 @@ module.exports = function(grunt) {
 					for( format in options.formats ) {
 						url = project_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + options.formats[ format ];
 
-						var data = {
-							domainPath: options.domainPath
-							textdomain: options.textdomain
-							locale: set.locale 
+						var info = {
+							domainPath: options.domainPath,
+							textdomain: options.textdomain,
+							locale: set.locale,
+							wp_locale: set.wp_locale,
 							format: options.formats[ format ]
-						}
+						};
 
-						download_file( url, build_file() );
+						download_file( url, build_file( options.file_format, info ) );
 					}
 				}
 			}
