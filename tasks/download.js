@@ -36,7 +36,12 @@ module.exports = function(grunt) {
 			formats: [
 				'po',
 				'mo'
-			]
+			],
+			filter: {
+				translation_sets: false,
+				percentage: 0,
+				waiting_strings: false
+			}
 		});
 
 		if ( ! options.url || ! options.slug || ! options.textdomain ) {
@@ -55,6 +60,10 @@ module.exports = function(grunt) {
 					set = data.translation_sets[ index ];
 
 					if ( 0 === set.current_count ) {
+						continue;
+					}
+
+					if ( options.filter.percentage > parseInt( set.percent_translated ) ) {
 						continue;
 					}
 
