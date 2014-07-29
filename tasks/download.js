@@ -54,6 +54,10 @@ module.exports = function(grunt) {
 				for ( index in data.translation_sets ) {
 					set = data.translation_sets[ index ];
 
+					if ( 0 === set.current_count ) {
+						continue;
+					}
+
 					for( format in options.formats ) {
 						url = project_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + options.formats[ format ];
 
