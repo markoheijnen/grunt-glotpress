@@ -14,8 +14,6 @@ module.exports = function(grunt) {
 	function download_file( url, file ) {
 		request( url, function(error, response, body) {
 			if ( ! error && response.statusCode === 200 ) {
-				grunt.log.muted = false;
-				grunt.log.writeln( 'write file: ' + process.cwd() + '/' + file );
 				var feedback = grunt.file.write( process.cwd() + '/' + file, body );
 			}
 		});
