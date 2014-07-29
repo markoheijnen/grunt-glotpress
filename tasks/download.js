@@ -19,6 +19,12 @@ module.exports = function(grunt) {
 		});
 	}
 
+	function build_file( format, data ) {
+		return format.replace( /%(\w*)%/g, function(m,key) {
+			return data.hasOwnProperty( key ) ? data[key] : '';
+		});
+	}
+
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
 		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
@@ -26,6 +32,7 @@ module.exports = function(grunt) {
 			url: false,
 			slug: false,
 			textdomain: false,
+			file_format: '%domainPath%/%textdomain%-%locale%.%format%';
 			formats: [
 				'po',
 				'mo'
@@ -50,7 +57,14 @@ module.exports = function(grunt) {
 					for( format in options.formats ) {
 						url = project_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + options.formats[ format ];
 
-						download_file( url, options.domainPath + '/' + options.textdomain + '-' + set.locale + '.' + options.formats[ format ] );
+						var data = {
+							domainPath: options.domainPath
+							textdomain: options.textdomain
+							locale: set.locale 
+							format: options.formats[ format ]
+						}
+
+						download_file( url, build_file() );
 					}
 				}
 			}
