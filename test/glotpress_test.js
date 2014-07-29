@@ -41,6 +41,5 @@ exports.glotpress_download = {
 			test.equal(-1, -1, 'should not return anything');
 			test.done();
 		});
-
 	}
 };
