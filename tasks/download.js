@@ -39,7 +39,7 @@ module.exports = function(grunt) {
 			],
 			filter: {
 				translation_sets: false,
-				percentage: 0,
+				minimum_percentage: 30,
 				waiting_strings: false
 			}
 		});
@@ -63,7 +63,7 @@ module.exports = function(grunt) {
 						continue;
 					}
 
-					if ( options.filter.percentage > parseInt( set.percent_translated ) ) {
+					if ( options.filter.minimum_percentage > parseInt( set.percent_translated ) ) {
 						continue;
 					}
 
