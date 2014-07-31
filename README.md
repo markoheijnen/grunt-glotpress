@@ -17,14 +17,14 @@ Once the plugin has been installed, it may be enabled inside your Gruntfile with
 grunt.loadNpmTasks('grunt-glotpress');
 ```
 
-## The "glotpress" task
+## The "glotpress_download" task
 
 ### Overview
-In your project's Gruntfile, add a section named `glotpress` to the data object passed into `grunt.initConfig()`.
+In your project's Gruntfile, add a section named `glotpress_download` to the data object passed into `grunt.initConfig()`.
 
 ```js
 grunt.initConfig({
-  glotpress: {
+  glotpress_download: {
     options: {
       // Task-specific options go here.
     },
@@ -37,46 +37,60 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.domainPath
 Type: `String`
-Default value: `',  '`
+Default value: `languages`
 
-A string value that is used to do something with whatever.
+The folder where all downloaded files will be stored
 
-#### options.punctuation
+#### options.url
 Type: `String`
-Default value: `'.'`
+Default value: `false`
 
-A string value that is used to do something else with whatever else.
+The url of the GlotPress installation (required).
+
+#### options.slug
+Type: `String`
+Default value: `false`
+
+The slug is the path in the GlotPress installation which can also be main-folder/sub-folder (required).
+
+#### options.textdomain
+Type: `String`
+Default value: `false`
+
+The textdomain that is used for WordPress. This is needed for the files (required).
+
+#### options.file_format
+Type: `String`
+Default value: `%domainPath%/%textdomain%-%wp_locale%.%format%`
+
+The structure how the file is being stored. Is based on previous settings but you could create your own format.
+For now only those four values and short locale can be used. You could however save the files in different folders if you move a placeholder.
+
+#### options.filter
+Type: `object`
+Default value: `{translation_sets: false, minimum_percentage: 30, waiting_strings: false}`
+
+You can filter which files you want to have. By default it only checks the minimum percentage translation sets need to be translated.
+The other parameters still need to be implemented.
+
 
 ### Usage Examples
 
 #### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
+In this example, the default options are used to download all translations sets from a project.
 
 ```js
 grunt.initConfig({
-  glotpress: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
-
-```js
-grunt.initConfig({
-  glotpress: {
-    options: {
-      separator: ': ',
-      punctuation: ' !!!',
-    },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+  glotpress_download: {
+    core: {
+      options: {
+        domainPath: 'languages',
+        url: 'http://wp-translate.org',
+        slug: 'tabify-edit-screen',
+        textdomain: 'tabify-edit-screen',
+      }
     },
   },
 });
@@ -86,4 +100,5 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+- 0.1.0 - Initial Release
+- 0.1.1 - Fix bug when only one diff|patch exists in the working directory
