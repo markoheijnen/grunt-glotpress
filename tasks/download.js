@@ -11,7 +11,7 @@
 var request = require( 'request' );
 
 module.exports = function(grunt) {
-	var current_requests;
+	var current_requests = 0;
 
 	function download_file( url, file, done ) {
 		current_requests++;
@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 			current_requests--;
 
 			if ( current_requests === 0 ) {
-				done( 0 );
+				done();
 			}
 		});
 	}
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 
 		if ( ! options.url || ! options.slug || ! options.textdomain ) {
 			grunt.fail.report("All required options aren't filled in.");
-			done( 1 );
+			done(false);
 		}
 
 		var project_url = options.url + '/api/projects/' + options.slug;
