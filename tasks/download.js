@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 			current_requests--;
 
 			if ( current_requests === 0 ) {
-				done(0);
+				done( 0 );
 			}
 		});
 	}
@@ -58,7 +58,7 @@ module.exports = function(grunt) {
 
 		if ( ! options.url || ! options.slug || ! options.textdomain ) {
 			grunt.fail.report("All required options aren't filled in.");
-			return;
+			done( 1 );
 		}
 
 		var project_url = options.url + '/api/projects/' + options.slug;
@@ -95,8 +95,6 @@ module.exports = function(grunt) {
 				}
 			}
 		});
-
-		return true;
 	});
 
 };
