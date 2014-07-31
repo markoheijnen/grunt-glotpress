@@ -23,7 +23,7 @@ module.exports = function(grunt) {
 
 			current_requests--;
 
-			if ( current_requests == 0 ) {
+			if ( current_requests === 0 ) {
 				done(0);
 			}
 		});
@@ -36,7 +36,7 @@ module.exports = function(grunt) {
 	}
 
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
-		done = this.async()
+		done = this.async();
 
 		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
