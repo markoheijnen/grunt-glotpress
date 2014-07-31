@@ -11,10 +11,20 @@
 var request = require( 'request' );
 
 module.exports = function(grunt) {
+	var current_requests, done;
+
 	function download_file( url, file ) {
+		current_requests++;
+
 		request( url, function(error, response, body) {
 			if ( ! error && response.statusCode === 200 ) {
 				var feedback = grunt.file.write( process.cwd() + '/' + file, body );
+			}
+
+			current_requests--;
+
+			if ( current_requests == 0 ) {
+				done(0);
 			}
 		});
 	}
@@ -26,6 +36,8 @@ module.exports = function(grunt) {
 	}
 
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
+		done = this.async()
+
 		// Merge task-specific and/or target-specific options with these defaults.
 		var options = this.options({
 			domainPath: 'languages',
