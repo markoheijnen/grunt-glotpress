@@ -101,4 +101,4 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 - 0.1.0 - Initial Release
-- 0.1.1 - Fix bug when only one diff|patch exists in the working directory
+- 0.1.1 - Fix dependency and downloading issues
