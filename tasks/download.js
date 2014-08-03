@@ -82,6 +82,10 @@ module.exports = function(grunt) {
 					for ( format in options.formats ) {
 						url = project_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + options.formats[ format ];
 
+						if ( options.filter.waiting_strings ) {
+							url += '&filters[status]=all';
+						}
+
 						var info = {
 							domainPath: options.domainPath,
 							textdomain: options.textdomain,
