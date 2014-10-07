@@ -30,6 +30,10 @@ module.exports = function(grunt) {
 	}
 
 	function build_file( format, data ) {
+		if ( ! data.wp_locale ) {
+			data.locale = data.wp_locale;
+		}
+
 		return format.replace( /%(\w*)%/g, function(m,key) {
 			return data.hasOwnProperty( key ) ? data[key] : '';
 		});
