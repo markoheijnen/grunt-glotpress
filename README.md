@@ -59,7 +59,7 @@ The slug is the path in the GlotPress installation which can also be main-folder
 Type: `String`
 Default value: `false`
 
-The textdomain that is used for WordPress. This is needed for the files (required).
+The textdomain that is used for WordPress. This is needed for the files. If not set, it will fallback to the slug.
 
 #### options.file_format
 Type: `String`

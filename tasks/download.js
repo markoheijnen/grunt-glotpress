@@ -56,9 +56,13 @@ module.exports = function(grunt) {
 			}
 		});
 
-		if ( ! options.url || ! options.slug || ! options.textdomain ) {
+		if ( ! options.url || ! options.slug ) {
 			grunt.fail.report("All required options aren't filled in.");
 			done(false);
+		}
+
+		if ( ! options.textdomain ) {
+			options.textdomain = options.slug;
 		}
 
 		var project_url = options.url + '/api/projects/' + options.slug;
