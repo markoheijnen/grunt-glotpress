@@ -1,7 +1,7 @@
 {
 	"name": "grunt-glotpress",
 	"description": "Gets translations from a GlotPress installation",
-	"version": "0.1.1",
+	"version": "0.2-dev",
 	"homepage": "https://github.com/markoheijnen/grunt-glotpress",
 	"author": {
 		"name": "Marko Heijnen",
