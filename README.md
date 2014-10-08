@@ -96,6 +96,25 @@ grunt.initConfig({
 });
 ```
 
+#### Default Options
+In this example, we add our own file format like for a theme. By default the format is set for plugins which do include the textdomain.
+
+```js
+grunt.initConfig({
+  glotpress_download: {
+    core: {
+      options: {
+        domainPath: 'languages',
+        url: 'http://wp-translate.org',
+        slug: 'cool-theme',
+        textdomain: 'cool-theme',
+        file_format: '%domainPath%/%wp_locale%.%format%',
+      }
+    },
+  },
+});
+```
+
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
