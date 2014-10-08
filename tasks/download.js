@@ -29,11 +29,11 @@ module.exports = function(grunt) {
 		});
 	}
 
-	function build_file( format, data ) {
 		if ( ! data.wp_locale ) {
 			data.locale = data.wp_locale;
 		}
 
+	function build_filename( format, data ) {
 		return format.replace( /%(\w*)%/g, function(m,key) {
 			return data.hasOwnProperty( key ) ? data[key] : '';
 		});
@@ -98,7 +98,7 @@ module.exports = function(grunt) {
 							format: options.formats[ format ]
 						};
 
-						download_file( url, build_file( options.file_format, info ), done );
+						download_file( url, build_filename( options.file_format, info ), done );
 					}
 				}
 			}
