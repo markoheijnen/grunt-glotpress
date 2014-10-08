@@ -29,10 +29,6 @@ module.exports = function(grunt) {
 		});
 	}
 
-		if ( ! data.wp_locale ) {
-			data.locale = data.wp_locale;
-		}
-
 	function build_filename( format, data ) {
 		return format.replace( /%(\w*)%/g, function(m,key) {
 			return data.hasOwnProperty( key ) ? data[key] : '';
@@ -97,6 +93,14 @@ module.exports = function(grunt) {
 							wp_locale: set.wp_locale,
 							format: options.formats[ format ]
 						};
+
+						if ( ! data.wp_locale ) {
+							data.locale = data.wp_locale;
+
+							if ( format.indexOf('%wp_locale%') > -1 ) {
+								grunt.log.writeln( "Locale " + set.locale + " doesn't have a wp_locale set." );
+							}
+						}
 
 						download_file( url, build_filename( options.file_format, info ), done );
 					}
