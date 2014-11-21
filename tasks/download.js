@@ -99,7 +99,7 @@ module.exports = function(grunt) {
 						};
 
 						if ( ! data.wp_locale ) {
-							data.locale = data.wp_locale;
+							data.wp_locale = data.locale;
 
 							if ( format.indexOf('%wp_locale%') > -1 ) {
 								grunt.log.writeln( "Locale " + set.locale + " doesn't have a wp_locale set." );
