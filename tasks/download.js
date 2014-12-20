@@ -94,7 +94,7 @@ module.exports = function(grunt) {
 							domainPath: options.domainPath,
 							textdomain: options.textdomain,
 							locale: set.locale,
-							wp_locale: set.wp_locale,
+							wp_locale: set.wp_locale || set.locale,
 							format: options.formats[ format ]
 						};
 
