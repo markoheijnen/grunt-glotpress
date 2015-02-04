@@ -13,28 +13,6 @@ var request = require( 'request' );
 module.exports = function(grunt) {
 	var current_requests = 0;
 
-	function download_file( url, file, done ) {
-		current_requests++;
-
-		request( url, function(error, response, body) {
-			if ( ! error && response.statusCode === 200 ) {
-				var feedback = grunt.file.write( process.cwd() + '/' + file, body );
-			}
-
-			current_requests--;
-
-			if ( current_requests === 0 ) {
-				done();
-			}
-		});
-	}
-
-	function build_filename( format, data ) {
-		return format.replace( /%(\w*)%/g, function(m,key) {
-			return data.hasOwnProperty( key ) ? data[key] : '';
-		});
-	}
-
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
 		var done = this.async();
 
@@ -112,5 +90,28 @@ module.exports = function(grunt) {
 			}
 		});
 	});
+
+
+	function build_filename( format, data ) {
+		return format.replace( /%(\w*)%/g, function(m,key) {
+			return data.hasOwnProperty( key ) ? data[key] : '';
+		});
+	}
+
+	function download_file( url, file, done ) {
+		current_requests++;
+
+		request( url, function(error, response, body) {
+			if ( ! error && response.statusCode === 200 ) {
+				var feedback = grunt.file.write( process.cwd() + '/' + file, body );
+			}
+
+			current_requests--;
+
+			if ( current_requests === 0 ) {
+				done();
+			}
+		});
+	}
 
 };
