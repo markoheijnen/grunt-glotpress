@@ -34,6 +34,9 @@ module.exports = function(grunt) {
 			}
 		});
 
+		options.url        = strip_trailing_slash( options.url );
+		options.domainPath = strip_trailing_slash( options.domainPath );
+
 		if ( ! options.url || ! options.slug ) {
 			grunt.fail.report("All required options aren't filled in.");
 			done(false);
@@ -96,6 +99,14 @@ module.exports = function(grunt) {
 		});
 	});
 
+
+	function strip_trailing_slash( str ) {
+		if ( str.substr(-1) == '/' ) {
+			return str.substr( 0, str.length - 1 );
+		}
+
+		return str;
+	}
 
 	function build_filename( format, data ) {
 		return format.replace( /%(\w*)%/g, function(m,key) {
