@@ -45,7 +45,12 @@ module.exports = function(grunt) {
 
 		var project_url = options.url + '/api/projects/' + options.slug;
 
-		request( project_url, function(error, response, body) {
+		var options = {
+			url: project_url,
+			encoding: null
+		}
+
+		request( options, function(error, response, body) {
 			if ( ! error && response.statusCode === 200 ) {
 				var data = JSON.parse( body );
 				var set, index, format, url;
