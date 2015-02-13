@@ -11,6 +11,8 @@
 var request = require( 'request' );
 
 module.exports = function(grunt) {
+	var api_url;
+
 	var current_requests = 0;
 	var options;
 	var is_done;
@@ -43,6 +45,9 @@ module.exports = function(grunt) {
 
 		options.url        = strip_trailing_slash( options.url );
 		options.domainPath = strip_trailing_slash( options.domainPath );
+
+		api_url = options.url + '/api/projects/' + options.slug;
+
 		if ( ! options.textdomain ) {
 			options.textdomain = options.slug;
 		}
@@ -51,10 +56,9 @@ module.exports = function(grunt) {
 	});
 
 
-	function get_project_data() {
-		var project_url = options.url + '/api/projects/' + options.slug;
+	function get_project_data( options ) {
 		var request_options = {
-			url: project_url,
+			url: api_url,
 			encoding: null
 		};
 
@@ -98,7 +102,7 @@ module.exports = function(grunt) {
 
 
 	function download_translations( set, format ) {
-		var url = options.url + '/api/projects/' + options.slug + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + format;
+		var url = api_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + format;
 
 		if ( options.filter.waiting_strings ) {
 			url += '&filters[status]=all';
