@@ -14,14 +14,13 @@ module.exports = function(grunt) {
 	var api_url;
 
 	var current_requests = 0;
-	var options;
 	var is_done;
 
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
 		is_done = this.async();
 
 		// Merge task-specific and/or target-specific options with these defaults.
-		options = this.options({
+		var options = this.options({
 			domainPath: 'languages',
 			url: false,
 			slug: false,
@@ -52,7 +51,7 @@ module.exports = function(grunt) {
 			options.textdomain = options.slug;
 		}
 
-		get_project_data();
+		get_project_data( options );
 	});
 
 
@@ -79,12 +78,13 @@ module.exports = function(grunt) {
 					}
 
 					for ( format in options.formats ) {
-						download_translations( set, options.formats[ format ] );
+						download_translations( set, options.formats[ format ], options );
 					}
 				}
 			}
 		});
 	}
+
 
 	function strip_trailing_slash( str ) {
 		if ( str.substr(-1) === '/' ) {
@@ -94,14 +94,7 @@ module.exports = function(grunt) {
 		return str;
 	}
 
-	function build_filename( format, data ) {
-		return format.replace( /%(\w*)%/g, function(m,key) {
-			return data.hasOwnProperty( key ) ? data[key] : '';
-		});
-	}
-
-
-	function download_translations( set, format ) {
+	function download_translations( set, format, options ) {
 		var url = api_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + format;
 
 		if ( options.filter.waiting_strings ) {
@@ -125,6 +118,12 @@ module.exports = function(grunt) {
 		}
 
 		download_file( url, build_filename( options.file_format, info ) );
+	}
+
+	function build_filename( format, data ) {
+		return format.replace( /%(\w*)%/g, function(m,key) {
+			return data.hasOwnProperty( key ) ? data[key] : '';
+		});
 	}
 
 	function download_file( url, file ) {
