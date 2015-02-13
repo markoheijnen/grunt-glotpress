@@ -113,7 +113,7 @@ module.exports = function(grunt) {
 			textdomain: options.textdomain,
 			locale: set.locale,
 			wp_locale: set.wp_locale,
-			format: options.formats[ format ]
+			format: format
 		};
 
 		if ( ! info.wp_locale ) {
