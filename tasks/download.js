@@ -82,6 +82,9 @@ module.exports = function(grunt) {
 					}
 				}
 			}
+			else {
+				is_done(false);
+			}
 		});
 	}
 
