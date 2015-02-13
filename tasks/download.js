@@ -36,14 +36,13 @@ module.exports = function(grunt) {
 			}
 		});
 
-		options.url        = strip_trailing_slash( options.url );
-		options.domainPath = strip_trailing_slash( options.domainPath );
-
 		if ( ! options.url || ! options.slug ) {
 			grunt.fail.report("All required options aren't filled in.");
 			is_done(false);
 		}
 
+		options.url        = strip_trailing_slash( options.url );
+		options.domainPath = strip_trailing_slash( options.domainPath );
 		if ( ! options.textdomain ) {
 			options.textdomain = options.slug;
 		}
