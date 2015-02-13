@@ -12,12 +12,14 @@ var request = require( 'request' );
 
 module.exports = function(grunt) {
 	var current_requests = 0;
+	var options;
+	var is_done;
 
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
-		var done = this.async();
+		is_done = this.async();
 
 		// Merge task-specific and/or target-specific options with these defaults.
-		var options = this.options({
+		options = this.options({
 			domainPath: 'languages',
 			url: false,
 			slug: false,
@@ -39,24 +41,28 @@ module.exports = function(grunt) {
 
 		if ( ! options.url || ! options.slug ) {
 			grunt.fail.report("All required options aren't filled in.");
-			done(false);
+			is_done(false);
 		}
 
 		if ( ! options.textdomain ) {
 			options.textdomain = options.slug;
 		}
 
-		var project_url = options.url + '/api/projects/' + options.slug;
+		get_project_data();
+	});
 
-		var options = {
+
+	function get_project_data() {
+		var project_url = options.url + '/api/projects/' + options.slug;
+		var request_options = {
 			url: project_url,
 			encoding: null
-		}
+		};
 
-		request( options, function(error, response, body) {
+		request( request_options, function(error, response, body) {
 			if ( ! error && response.statusCode === 200 ) {
 				var data = JSON.parse( body );
-				var set, index, format, url;
+				var set, index, format;
 
 				for ( index in data.translation_sets ) {
 					set = data.translation_sets[ index ];
@@ -70,38 +76,15 @@ module.exports = function(grunt) {
 					}
 
 					for ( format in options.formats ) {
-						url = project_url + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + options.formats[ format ];
-
-						if ( options.filter.waiting_strings ) {
-							url += '&filters[status]=all';
-						}
-
-						var info = {
-							domainPath: options.domainPath,
-							textdomain: options.textdomain,
-							locale: set.locale,
-							wp_locale: set.wp_locale,
-							format: options.formats[ format ]
-						};
-
-						if ( ! info.wp_locale ) {
-							info.wp_locale = info.locale;
-
-							if ( format.indexOf('%wp_locale%') > -1 ) {
-								grunt.log.writeln( "Locale " + set.locale + " doesn't have a wp_locale set." );
-							}
-						}
-
-						download_file( url, build_filename( options.file_format, info ), done );
+						download_translations( set, options.formats[ format ] );
 					}
 				}
 			}
 		});
-	});
-
+	}
 
 	function strip_trailing_slash( str ) {
-		if ( str.substr(-1) == '/' ) {
+		if ( str.substr(-1) === '/' ) {
 			return str.substr( 0, str.length - 1 );
 		}
 
@@ -114,7 +97,34 @@ module.exports = function(grunt) {
 		});
 	}
 
-	function download_file( url, file, done ) {
+
+	function download_translations( set, format ) {
+		var url = options.url + '/api/projects/' + options.slug + '/' + set.locale + '/' + set.slug + '/export-translations?format=' + format;
+
+		if ( options.filter.waiting_strings ) {
+			url += '&filters[status]=all';
+		}
+
+		var info = {
+			domainPath: options.domainPath,
+			textdomain: options.textdomain,
+			locale: set.locale,
+			wp_locale: set.wp_locale,
+			format: options.formats[ format ]
+		};
+
+		if ( ! info.wp_locale ) {
+			info.wp_locale = info.locale;
+
+			if ( format.indexOf('%wp_locale%') > -1 ) {
+				grunt.log.writeln( "Locale " + set.locale + " doesn't have a wp_locale set." );
+			}
+		}
+
+		download_file( url, build_filename( options.file_format, info ) );
+	}
+
+	function download_file( url, file ) {
 		current_requests++;
 
 		request( url, function(error, response, body) {
@@ -125,7 +135,7 @@ module.exports = function(grunt) {
 			current_requests--;
 
 			if ( current_requests === 0 ) {
-				done();
+				is_done();
 			}
 		});
 	}
