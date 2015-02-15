@@ -119,7 +119,8 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-- 0.2.0 - Add ability to include waiting strings.
+- 0.2.0 - Complete rewrite of the codebase.
+          Add ability to include waiting strings.
           Fallback to locale if wp_locale doesn't exists.
           Fixes encoding issue where downloadeded files didn't work.
           Further coding style fixes.
