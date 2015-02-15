@@ -15,6 +15,30 @@ exports.test_glotpress_download = {
 	},
 
 
+	download_translations_test_empty_options: function(test) {
+		var options = {};
+
+		glotpress_downloader.download_translations( options, function(success, message) {
+			test.equal( success, false);
+			test.done();
+		} );
+	},
+
+	download_translations_test_callback: function(test) {
+		var options = {
+			domainPath: 'tmp',
+			url: 'http://wp-translate.org',
+			slug: 'tabify-edit-screen',
+			textdomain: 'tabify-edit-screen',
+		};
+
+		glotpress_downloader.download_translations( options, function(success, message) {
+			test.equal( success, true);
+			test.done();
+		} );
+	},
+
+
 	merge_defaults_test_default: function(test) {
 		var defaults = { test: '1' }
 		var options  = glotpress_downloader.merge_defaults( {}, defaults );
