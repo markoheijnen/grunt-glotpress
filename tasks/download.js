@@ -21,7 +21,7 @@ module.exports = function(grunt) {
 
 		downloader.download_translations( options, function(success, message) {
 			if ( message && ! success ) {
-				grunt.fail.report("All required options aren't filled in.");
+				grunt.fail.report(message);
 			}
 
 			is_done(success);
