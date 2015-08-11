@@ -68,6 +68,12 @@ Default value: `%domainPath%/%textdomain%-%wp_locale%.%format%`
 The structure how the file is being stored. Is based on previous settings but you could create your own format.
 For now only those four values and short locale can be used. You could however save the files in different folders if you move a placeholder.
 
+#### options.formats
+Type: `Array`
+Default value: `['po','mo']`
+
+The file formats that will be downloaded for each translation set.
+
 #### options.filter
 Type: `object`
 Default value: `{translation_sets: false, minimum_percentage: 30, waiting_strings: false}`
