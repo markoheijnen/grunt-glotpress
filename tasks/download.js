@@ -10,28 +10,26 @@
 
 
 module.exports = function(grunt) {
-	var downloader = require( '../lib/downloader' ),
-		path = require( 'path' );
-
-	var is_done;
+	const downloader = require( '../lib/downloader' );
+	const path = require( 'path' );
 
 	grunt.registerMultiTask('glotpress_download', 'Gets translations from a GlotPress installation', function() {
-		is_done = this.async();
+		const is_done = this.async();
 
 		// Merge task-specific and/or target-specific options with these defaults.
-		var options = this.options({
-			cwd: process.cwd()
+		const options = this.options({
+			cwd: process.cwd(),
 		});
 
 		options.cwd = path.resolve( process.cwd(), options.cwd );
 		grunt.file.setBase( options.cwd );
 
-		downloader.download_translations( options, function(success, message) {
+		downloader.download_translations( options ).then( function( { success, message } ) {
 			if ( message && ! success ) {
-				grunt.fail.report(message);
+				grunt.fail.report( message );
 			}
 
-			is_done(success);
+			is_done( success );
 		} );
 	});
 

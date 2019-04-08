@@ -81,6 +81,12 @@ Default value: `{translation_sets: false, minimum_percentage: 30, waiting_string
 You can filter which files you want to have. By default it only checks the minimum percentage translation sets need to be translated.
 The other parameters still need to be implemented.
 
+#### options.batchSize
+Type: `Number`
+Default value: `-1`
+
+You can limit the amount of files being downloaded at one time. Set to `-1` for no limit.
+
 
 ### Usage Examples
 
