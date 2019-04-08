@@ -1,8 +1,6 @@
 'use strict';
 
-var 
-	glotpress_downloader = require('../lib/downloader');
-;
+const glotpress_downloader = require('../lib/downloader');
 
 exports.test_glotpress_download = {
 	setUp: function(callback) {
@@ -16,23 +14,23 @@ exports.test_glotpress_download = {
 
 
 	download_translations_test_empty_options: function(test) {
-		var options = {};
+		const options = {};
 
-		glotpress_downloader.download_translations( options, function(success, message) {
-			test.equal( success, false);
+		glotpress_downloader.download_translations( options ).then( function( { success, message } ) {
+			test.equal( success, false );
 			test.done();
 		} );
 	},
 
 	download_translations_test_callback: function(test) {
-		var options = {
+		const options = {
 			domainPath: 'tmp',
 			url: 'http://wp-translate.org',
 			slug: 'tabify-edit-screen',
 			textdomain: 'tabify-edit-screen',
 		};
 
-		glotpress_downloader.download_translations( options, function(success, message) {
+		glotpress_downloader.download_translations( options ).then( function( { success, message } ) {
 			test.equal( success, true);
 			test.done();
 		} );
@@ -40,8 +38,8 @@ exports.test_glotpress_download = {
 
 
 	merge_defaults_test_default: function(test) {
-		var defaults = { test: '1' }
-		var options  = glotpress_downloader.merge_defaults( {}, defaults );
+		const defaults = { test: '1' };
+		const options  = glotpress_downloader.merge_defaults( {}, defaults );
 
 		test.equal( options.test, '1' );
 
@@ -49,8 +47,8 @@ exports.test_glotpress_download = {
 	},
 
 	merge_defaults_test_overwrite: function(test) {
-		var defaults = { test: '1' }
-		var options  = glotpress_downloader.merge_defaults( { test: '2' }, defaults );
+		const defaults = { test: '1' };
+		const options  = glotpress_downloader.merge_defaults( { test: '2' }, defaults );
 
 		test.equal( options.test, '2' );
 
