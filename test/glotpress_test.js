@@ -25,9 +25,9 @@ exports.test_glotpress_download = {
 	download_translations_test_callback: function(test) {
 		const options = {
 			domainPath: 'tmp',
-			url: 'http://translate.yoast.com',
-			slug: 'wordpress-seo-premium',
-			textdomain: 'wordpress-seo-premium',
+			url: 'http://wp-translate.org',
+			slug: 'tabify-edit-screen',
+			textdomain: 'tabify-edit-screen',
 		};
 
 		glotpress_downloader.download_translations( options ).then( function( { success, message } ) {
